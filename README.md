@@ -180,7 +180,7 @@ This project demonstrates practical implementation of:
 - Real-Time Data Processing
 ---
 ## 👨‍💻 Authors
-**Contributers:** K.Rudheer, V.Srikar, R.Tridev, J.Trinesh 
+**Contributers:** K.Rudheer, V.VENKATA Srikar, R.Tridev, J.Trinesh 
 **Course:** B.Tech CSE (AI)
 **Project:** Real-Time Drone Collision Detection and Airspace Monitoring System
 ---
