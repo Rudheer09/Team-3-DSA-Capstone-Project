@@ -1,5 +1,3 @@
-@ -1,188 +0,0 @@
-
 # 🚁 Real-Time Drone Collision Detection and Airspace Monitoring System
 
 ## A real-time airspace monitoring system that efficiently manages thousands of drones using advanced **Geometric Data Structures** and **Computational Geometry Algorithms**. The project detects potential collisions, identifies nearest neighboring drones, monitors no-fly zone violations, and generates real-time alerts while maintaining high performance through efficient spatial indexing.
