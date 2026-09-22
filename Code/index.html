@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKYSHIELD // Advanced Volumetric Airspace</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%230f172a' stroke='%23ff6a00' stroke-width='8'/><circle cx='50' cy='50' r='15' fill='%2300d4ff'/></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Global Interactive Ambient Background -->
+    <canvas id="global-bg-canvas"></canvas>
+
+    <!-- Persistent Header -->
+    <nav id="navbar">
+        <div class="nav-logo" onclick="navigateTo('hero')">
+            <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 15 50 C 15 20, 55 10, 85 35 C 95 45, 95 65, 80 85" fill="none" stroke="url(#orange-grad)"
+                    stroke-width="8" stroke-linecap="round" />
+                <path d="M 20 80 C 5 60, 20 30, 50 20" fill="none" stroke="#00d4ff" stroke-width="3"
+                    stroke-linecap="round" stroke-dasharray="6 6" />
+                <circle cx="50" cy="50" r="14" fill="#0f172a" stroke="#00d4ff" stroke-width="4" />
+                <circle cx="30" cy="30" r="6" fill="#ff6a00" />
+                <circle cx="70" cy="30" r="6" fill="#ff6a00" />
+                <circle cx="30" cy="70" r="6" fill="#ff6a00" />
+                <circle cx="70" cy="70" r="6" fill="#ff6a00" />
+                <line x1="30" y1="30" x2="50" y2="50" stroke="#00d4ff" stroke-width="3" />
+                <line x1="70" y1="30" x2="50" y2="50" stroke="#00d4ff" stroke-width="3" />
+                <line x1="30" y1="70" x2="50" y2="50" stroke="#00d4ff" stroke-width="3" />
+                <line x1="70" y1="70" x2="50" y2="50" stroke="#00d4ff" stroke-width="3" />
+                <defs>
+                    <linearGradient id="orange-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ff9100" />
+                        <stop offset="100%" stop-color="#ff2a2a" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <div class="logo-text">SKYSHIELD</div>
+        </div>
+        <div class="nav-links">
+            <a onclick="navigateTo('overview')" id="link-overview">System Overview</a>
+            <a onclick="navigateTo('structures')" id="link-structures">Data Structures Used</a>
+            <a onclick="navigateTo('cockpit')" id="link-cockpit" class="active-tab">3D Command Cockpit</a>
+            <a onclick="navigateTo('sandbox')" id="link-sandbox">Integrated Compiler</a>
+        </div>
+        <button class="btn-launch" onclick="navigateTo('cockpit')">INITIALIZE SYSTEM</button>
+    </nav>
+
+    <!-- Main Views Container -->
+    <main id="app-root">
+
+        <!-- VIEW 0: HERO -->
+        <section id="view-hero" class="page-view">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="pulse-dot"></span> TEAM-3 // SPATIAL REASONING ENGINE
+                </div>
+                <h1 class="hero-title">
+                    Real-Time Drone Collision Detection & <br><span class="glow-text">Airspace Monitoring</span>
+                </h1>
+                <p class="hero-desc">
+                    High-density Urban Air Mobility (UAM) demands zero-latency collision prevention[cite: 1]. We
+                    eliminate computationally crippling O(n²) bottlenecks through 3D KD-Trees, Quad Trees, and Sweep
+                    Line spatial indexing, enabling safe autonomous fleets[cite: 1].
+                </p>
+                <div class="hero-actions">
+                    <button class="btn-launch" onclick="navigateTo('cockpit')">Open 3D Cockpit</button>
+                    <button class="btn-outline-hero" onclick="navigateTo('overview')">Explore Architecture</button>
+                </div>
+            </div>
+
+            <div class="hero-graphic">
+                <div class="iso-grid">
+                    <div class="iso-drone d1"></div>
+                    <div class="iso-drone d2"></div>
+                    <div class="iso-drone d3"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 1: SYSTEM OVERVIEW -->
+        <section id="view-overview" class="page-view">
+            <div class="page-header">
+                <span class="page-tag">Context & Constraints</span>
+                <h2>System Overview & Mission Intelligence</h2>
+                <p class="page-subtitle">Real-world UAV logistics face dynamic physical constraints that algorithmic
+                    models must anticipate. Standard point-to-point distance calculations fail in the face of
+                    aerodynamics and hardware lag[cite: 1].</p>
+            </div>
+
+            <div class="overview-deep-dive">
+                <div class="context-block">
+                    <img src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=1200&q=80"
+                        alt="Urban Canyon" class="context-img">
+                    <div class="context-text">
+                        <h3>High-Density Swarms & The O(n²) Bottleneck</h3>
+                        <p>As autonomous delivery fleets and emergency reconnaissance UAVs saturate low-altitude urban
+                            airspace, tracking them becomes a massive computational burden[cite: 1]. Checking every
+                            drone against every other drone (Brute Force) scales quadratically. For a fleet of 10,000
+                            drones, the system must process 50,000,000 checks per millisecond. A 2-second algorithmic
+                            lag creates overlapping collision spheres, leading to catastrophic mid-air kinetic
+                            events[cite: 1]. Our geometric spatial reasoning engine prunes empty space, reducing
+                            operations to efficient logarithmic bounds.</p>
+                    </div>
+                </div>
+
+                <div class="context-block reverse">
+                    <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=1200&q=80"
+                        alt="Disaster Drone" class="context-img">
+                    <div class="context-text">
+                        <h3>Kinematic Braking & Wind Shear Constraints</h3>
+                        <p>Drones are physical objects governed by momentum; they cannot halt instantaneously.
+                            Deceleration envelopes dictate that trailing safety boundaries must expand dynamically based
+                            auf current velocity vectors (Vx, Vy, Vz), payload mass, and aerodynamic crosswinds. Urban
+                            canyons degrade satellite signals via GPS multipath interference, forcing the system to
+                            utilize probabilistic bounding volumes (AABBs)[cite: 1].</p>
+                    </div>
+                </div>
+
+                <div class="context-block">
+                    <img src="https://images.unsplash.com/photo-1521401830884-6c03c1c87ebb?auto=format&fit=crop&w=1200&q=80"
+                        alt="Data Analytics" class="context-img">
+                    <div class="context-text">
+                        <h3>Dynamic Zones & Predictive TCPA</h3>
+                        <p>During natural disasters, dynamically injecting a "No-Fly Zone" requires instantly rerouting
+                            hundreds of active trajectories without freezing the main simulation thread[cite: 1]. Our
+                            engine utilizes Time to Closest Point of Approach (TCPA) algorithms to predict future
+                            collisions based on current kinetic vectors, issuing evasive maneuvers long before physical
+                            separation is breached[cite: 1, 2].</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 2: DATA STRUCTURES USED -->
+        <section id="view-structures" class="page-view">
+            <div class="page-header">
+                <span class="page-tag">Algorithmic Architecture</span>
+                <h2>Data Structures Used</h2>
+                <p class="page-subtitle">The mathematical foundations driving our sub-quadratic performance[cite: 1].
+                </p>
+            </div>
+
+            <div class="ds-container">
+                <div class="ds-block">
+                    <h3 class="ds-heading">1. 3D KD-Tree (K-Dimensional Tree)</h3>
+                    <div class="ds-text-content">
+                        <div class="ds-text-segment">
+                            <h4>Definition</h4>
+                            <p>A space-partitioning binary search tree where every non-leaf node generates a splitting
+                                hyperplane, dividing the space into two half-spaces. The split axis cycles sequentially
+                                through the X, Y, and Z planes[cite: 1, 2].</p>
+                        </div>
+                        <div class="ds-text-segment">
+                            <h4>Function in this Project</h4>
+                            <p>Utilized for ultra-fast <strong>Nearest-Neighbor Queries</strong>[cite: 1, 2]. When a
+                                drone breaches a No-Fly Zone, the KD-Tree instantly locates the closest responder drone
+                                by pruning irrelevant branches[cite: 1, 2].</p>
+                        </div>
+                        <div class="ds-text-segment">
+                            <h4>Example</h4>
+                            <p>A search for a target at (1,14,3) discards the entire X>5 half-space, halving the
+                                required distance checks instantly.</p>
+                        </div>
+                    </div>
+                    <div class="ds-media-grid">
+                        <div class="ds-media-card">
+                            <span class="ds-media-label">Conceptual Graph</span>
+                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80"
+                                alt="Cyber Grid">
+                        </div>
+                        <div class="ds-media-card">
+                            <span class="ds-media-label">Live Motion: Splitting Planes</span>
+                            <canvas id="canvas-kdtree" class="ds-motion-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="ds-divider">
+
+                <div class="ds-block">
+                    <h3 class="ds-heading">2. 2D Quad Tree</h3>
+                    <div class="ds-text-content">
+                        <div class="ds-text-segment">
+                            <h4>Definition</h4>
+                            <p>A tree data structure in which each internal node partitions a two-dimensional space by
+                                recursively subdividing it into four quadrants (NW, NE, SW, SE) based on a defined
+                                capacity threshold[cite: 1, 2].</p>
+                        </div>
+                        <div class="ds-text-segment">
+                            <h4>Function in this Project</h4>
+                            <p>Utilized for <strong>Regional Zoning and Point Location</strong>[cite: 1, 2]. The Quad
+                                Tree manages 2D airspace sectors. When enforcing static No-Fly Zones, it allows the
+                                system to query only the drones physically located within the intersecting
+                                quadrants[cite: 1, 2].</p>
+                        </div>
+                        <div class="ds-text-segment">
+                            <h4>Example</h4>
+                            <p>If a No-Fly Zone is entirely contained within the NW block, the system completely ignores
+                                the NE, SW, and SE blocks during breach auditing.</p>
+                        </div>
+                    </div>
+                    <div class="ds-media-grid">
+                        <div class="ds-media-card">
+                            <span class="ds-media-label">Conceptual Map</span>
+                            <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&q=80"
+                                alt="Geometric Map">
+                        </div>
+                        <div class="ds-media-card">
+                            <span class="ds-media-label">Live Motion: Capacity Subdivisions</span>
+                            <canvas id="canvas-quadtree" class="ds-motion-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="ds-divider">
+
+                <div class="ds-block">
+                    <h3 class="ds-heading">3. Sweep Line Algorithm</h3>
+                    <div class="ds-text-content">
+                        <div class="ds-text-segment">
+                            <h4>Definition</h4>
+                            <p>A computational geometry algorithm that uses a conceptual sweep plane to sort geometric
+                                boundaries along one axis and processes them sequentially[cite: 1, 2].</p>
+                        </div>
+                        <div class="ds-text-segment">
+                            <h4>Function in this Project</h4>
+                            <p>Utilized for <strong>Broad-Phase Collision Detection</strong>[cite: 1, 2]. By projecting
+                                safety bubbles onto the X-axis, the algorithm sorts them ($O(n \log n)$). Heavy 3D
+                                Euclidean distance calculations ($O(n^2)$) are strictly limited to pairs simultaneously
+                                present in the active overlap list[cite: 1, 2].</p>
+                        </div>
+                        <div class="ds-text-segment">
+                            <h4>Example</h4>
+                            <p>The line sweeps left to right. It adds Drone A, then B. Since they overlap, it checks 3D
+                                distance. By the time it reaches C, A and B are removed, proving C cannot possibly
+                                collide with them.</p>
+                        </div>
+                    </div>
+                    <div class="ds-media-grid">
+                        <div class="ds-media-card">
+                            <span class="ds-media-label">Conceptual Sorting</span>
+                            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80"
+                                alt="Server Data">
+                        </div>
+                        <div class="ds-media-card">
+                            <span class="ds-media-label">Live Motion: Interval Radar</span>
+                            <canvas id="canvas-sweepline" class="ds-motion-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 3: 3D COMMAND COCKPIT -->
+        <section id="view-cockpit" class="page-view cockpit-view active-view">
+
+            <div class="cockpit-header-bar">
+                <div class="cockpit-title">SKYSHIELD <span class="highlight">// 3D TACTICAL RADAR</span></div>
+                <div class="cockpit-controls">
+                    <select id="hud-mode" class="cockpit-select">
+                        <option value="1">Mode 1: System Applied (TCPA Evasion Active)</option>
+                        <option value="2">Mode 2: Raw Physics (O(n²) Brute & Crashes)</option>
+                    </select>
+                    <select id="hud-scenario" class="cockpit-select">
+                        <option value="swarm">Scenario: Dense Urban Swarm</option>
+                        <option value="intercept">Scenario: High-Speed Intercept</option>
+                        <option value="blank">Scenario: Blank Slate (Builder)</option>
+                    </select>
+                    <button class="btn-outline-orange" id="btn-load-scenario">EXECUTE LOAD</button>
+                </div>
+            </div>
+
+            <div class="cockpit-grid">
+
+                <!-- Left Panel: Builder Controls -->
+                <div class="cockpit-panel left-panel">
+                    <h3 class="panel-heading">BUILDER: ASSET INJECTION</h3>
+
+                    <div class="panel-section">
+                        <h4>INJECT TARGET DRONE (XYZ)</h4>
+                        <div class="input-grid">
+                            <input type="text" id="hud-id" placeholder="CAP-1" value="CAP-1" class="full-width">
+                            <input type="number" id="hud-x" placeholder="X Coord" value="0">
+                            <input type="number" id="hud-y" placeholder="Y (Alt)" value="150">
+                            <input type="number" id="hud-z" placeholder="Z Coord" value="200">
+                            <input type="number" id="hud-vx" placeholder="Vx" value="25">
+                            <input type="number" id="hud-vy" placeholder="Vy" value="0">
+                            <input type="number" id="hud-vz" placeholder="Vz" value="-25">
+                        </div>
+                        <button class="btn-solid-orange" id="btn-inject-drone">LAUNCH DRONE</button>
+                    </div>
+
+                    <!-- PURGE / DELETE SECTION -->
+                    <div class="panel-section">
+                        <h4>PURGE SPECIFIC ASSET</h4>
+                        <div class="input-grid">
+                            <input type="text" id="hud-delete-id" placeholder="Drone ID (e.g. CAP-1)" class="full-width">
+                        </div>
+                        <button class="btn-solid-orange" id="btn-delete-drone" style="background: var(--accent-red); color: #fff;">DELETE DRONE</button>
+                    </div>
+
+                    <div class="panel-section">
+                        <h4>INJECT URBAN INFRASTRUCTURE</h4>
+                        <div class="input-grid">
+                            <select id="hud-build-type" class="full-width dark-select">
+                                <option value="skyscraper">Obstacle3D (Skyscraper)</option>
+                                <option value="nofly">Restricted No-Fly Zone (Dome)</option>
+                            </select>
+                            <input type="number" id="hud-bx" placeholder="X Coord" value="0">
+                            <input type="number" id="hud-bz" placeholder="Z Coord" value="0">
+                        </div>
+                        <button class="btn-solid-orange" id="btn-inject-building">SPAWN STRUCTURE</button>
+                    </div>
+
+                    <div class="panel-section">
+                        <h4>Camera Array</h4>
+                        <div class="cam-btn-group">
+                            <button class="btn-dark" id="cam-iso">ISOMETRIC</button>
+                            <button class="btn-dark" id="cam-top">TOP-DOWN SURFACE</button>
+                            <button class="btn-dark" id="cam-chase">DYNAMIC CHASE</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center: Native Java Graphics Engine Viewport -->
+                <div class="cockpit-center">
+                    <canvas id="radar-viewport-canvas"></canvas>
+                    <div class="viewport-hud-overlay">
+                        <div class="radar-tag">ENGINE: Java Graphics2D / Camera3D [ACTIVE]</div>
+                        <div class="camera-coords" id="cam-stats">AZIMUTH: 45.0° | ELEV: 30.0° | ZOOM: 1.0x</div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Telemetry & Log Stream -->
+                <div class="cockpit-panel right-panel">
+                    <h3 class="panel-heading">TCPA TELEMETRY & ALERTS</h3>
+
+                    <!-- TELEMETRY TARGET DISPLAY BOX -->
+                    <div class="panel-section" style="border-bottom: 1px solid var(--border-dim); padding-bottom: 1rem;">
+                        <h4 style="color: var(--accent-cyan);">SELECTED UNIT TELEMETRY</h4>
+                        <div id="selected-drone-telemetry" class="telemetry-display-box">
+                            <div class="telemetry-placeholder">Click a drone on radar to lock telemetry targeting.</div>
+                        </div>
+                    </div>
+
+                    <div class="metrics-container" style="padding-top: 1rem;">
+                        <div class="metric-row">
+                            <span class="metric-label">ACTIVE FLEET</span>
+                            <span class="metric-value" id="hud-val-fleet">0</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">LATENCY / TICK</span>
+                            <span class="metric-value" id="hud-val-lat">0.0ms</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-label">SYSTEM STATUS</span>
+                            <span class="metric-value status-cyan" id="hud-val-status">NOMINAL</span>
+                        </div>
+                    </div>
+
+                    <div class="alert-feed-container" id="hud-alert-stream"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- VIEW 4: INTEGRATED COMPILER SANDBOX -->
+        <section id="view-sandbox" class="page-view">
+            <div class="page-header">
+                <span class="page-tag">Backend Logic Emulation</span>
+                <h2>Integrated Backend Compiler</h2>
+                <p class="page-subtitle">Fully editable core engine source code based on your project files[cite: 1].
+                    Run the environment to compile the logic and execute CLI commands dynamically.</p>
+            </div>
+
+            <div class="compiler-layout">
+                <div class="compiler-editor">
+                    <div class="compiler-header">
+                        <span><i class="icon-file"></i> DroneSystem.java</span>
+                        <button class="btn-run-java" id="btn-run-java">▶ RUN COMPILER</button>
+                    </div>
+                    <textarea id="cli-editor" spellcheck="false">import java.util.*;
+
+class Drone {
+    String id;
+    double x, y, z;
+    double vx, vy, vz;
+    double radius = 10.0;  // Collision boundary
+
+    public Drone(String id, double x, double y, double z, double vx, double vy, double vz) {
+        this.id = id;
+        this.x = x; this.y = y; this.z = z;
+        this.vx = vx; this.vy = vy; this.vz = vz;
+    }
+
+    public void updateTrajectory(double dt) {
+        x += vx * dt;
+        y += vy * dt;
+        z += vz * dt;
+    }
+
+    public double distance3D(Drone other) {
+        return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2) + Math.pow(z - other.z, 2));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s at [%.1f, %.1f, %.1f]", id, x, y, z);
+    }
+}
+
+class NoFlyZone {
+    String id;
+    double cx, cy, cz, radius;
+
+    public NoFlyZone(String id, double cx, double cy, double cz, double radius) {
+        this.id = id; this.cx = cx; this.cy = cy; this.cz = cz; this.radius = radius;
+    }
+
+    public boolean violates(Drone d) {
+        double dist = Math.sqrt(Math.pow(cx - d.x, 2) + Math.pow(cy - d.y, 2) + Math.pow(cz - d.z, 2));
+        return dist <= radius;
+    }
+}
+
+// ==========================================
+// ALGORITHM 1: 3D KD-TREE (Nearest Neighbor)
+// ==========================================
+class KDNode {
+    Drone drone;
+    KDNode left, right;
+    int axis; // 0=X, 1=Y, 2=Z
+
+    public KDNode(Drone drone, int axis) {
+        this.drone = drone;
+        this.axis = axis;
+    }
+}
+
+class KDTree {
+    private KDNode root;
+    private Drone bestNode;
+    private double bestDist;
+
+    public void build(List<Drone> drones) {
+        this.root = buildRec(new ArrayList<>(drones), 0);
+    }
+
+    private KDNode buildRec(List<Drone> drones, int depth) {
+        if (drones.isEmpty()) return null;
+        int axis = depth % 3;
+        drones.sort(Comparator.comparingDouble(d -> getAxisVal(d, axis)));
+        int mid = drones.size() / 2;
+        KDNode node = new KDNode(drones.get(mid), axis);
+        node.left = buildRec(drones.subList(0, mid), depth + 1);
+        node.right = buildRec(drones.subList(mid + 1, drones.size()), depth + 1);
+        return node;
+    }
+
+    public Drone getNearestNeighbor(double tx, double ty, double tz) {
+        bestNode = null;
+        bestDist = Double.MAX_VALUE;
+        searchRec(root, tx, ty, tz);
+        return bestNode;
+    }
+
+    private void searchRec(KDNode node, double tx, double ty, double tz) {
+        if (node == null) return;
+        
+        double d = Math.sqrt(Math.pow(node.drone.x - tx, 2) + Math.pow(node.drone.y - ty, 2) + Math.pow(node.drone.z - tz, 2));
+        if (d < bestDist) {
+            bestDist = d;
+            bestNode = node.drone;
+        }
+
+        double targetAxisVal = getAxisVal(tx, ty, tz, node.axis);
+        double nodeAxisVal = getAxisVal(node.drone, node.axis);
+
+        KDNode next = (targetAxisVal < nodeAxisVal) ? node.left : node.right;
+        KDNode other = (targetAxisVal < nodeAxisVal) ? node.right : node.left;
+
+        searchRec(next, tx, ty, tz);
+        if (Math.abs(targetAxisVal - nodeAxisVal) < bestDist) {
+            searchRec(other, tx, ty, tz);
+        }
+    }
+
+    private double getAxisVal(Drone d, int axis) {
+        return axis == 0 ? d.x : (axis == 1 ? d.y : d.z);
+    }
+
+    private double getAxisVal(double x, double y, double z, int axis) {
+        return axis == 0 ? x : (axis == 1 ? y : z);
+    }
+}
+
+// ==========================================
+// ALGORITHM 2: 2D QUAD TREE (Point Location & Range)
+// ==========================================
+class Boundary {
+    double x, y, width, height; // x,y is center
+    public Boundary(double x, double y, double w, double h) {
+        this.x = x; this.y = y; this.width = w; this.height = h;
+    }
+    public boolean contains(Drone d) {
+        return (d.x >= x - width && d.x <= x + width && d.y >= y - height && d.y <= y + height);
+    }
+    public boolean intersects(Boundary range) {
+        return !(range.x - range.width > x + width || range.x + range.width < x - width ||
+                 range.y - range.height > y + height || range.y + range.height < y - height);
+    }
+}
+
+class QuadTree {
+    private Boundary boundary;
+    private int capacity;
+    private List<Drone> drones;
+    private boolean divided;
+    private QuadTree nw, ne, sw, se;
+
+    public QuadTree(Boundary boundary, int capacity) {
+        this.boundary = boundary;
+        this.capacity = capacity;
+        this.drones = new ArrayList<>();
+        this.divided = false;
+    }
+
+    public boolean insert(Drone d) {
+        if (!boundary.contains(d)) return false;
+        if (drones.size() < capacity) {
+            drones.add(d);
+            return true;
+        }
+        if (!divided) subdivide();
+        return nw.insert(d) || ne.insert(d) || sw.insert(d) || se.insert(d);
+    }
+
+    private void subdivide() {
+        double x = boundary.x; double y = boundary.y;
+        double w = boundary.width / 2; double h = boundary.height / 2;
+        ne = new QuadTree(new Boundary(x + w, y + h, w, h), capacity);
+        nw = new QuadTree(new Boundary(x - w, y + h, w, h), capacity);
+        se = new QuadTree(new Boundary(x + w, y - h, w, h), capacity);
+        sw = new QuadTree(new Boundary(x - w, y - h, w, h), capacity);
+        divided = true;
+    }
+
+    public List<Drone> query2DRange(Boundary range, List<Drone> found) {
+        if (!boundary.intersects(range)) return found;
+        for (Drone d : drones) {
+            if (range.contains(d)) found.add(d);
+        }
+        if (divided) {
+            nw.query2DRange(range, found); ne.query2DRange(range, found);
+            sw.query2DRange(range, found); se.query2DRange(range, found);
+        }
+        return found;
+    }
+}
+
+// ==========================================
+// ALGORITHM 3: SWEEP LINE (2D Broad-Phase Collisions)
+// ==========================================
+class SweepLineAlgorithm {
+    public static void detectCollisions(List<Drone> drones) {
+        if (drones.size() < 2) return;
+
+        drones.sort(Comparator.comparingDouble(d -> (d.x - d.radius)));
+        List<Drone> activeList = new ArrayList<>();
+        int potentialCollisions = 0;
+
+        for (Drone current : drones) {
+            activeList.removeIf(d -> (d.x + d.radius) < (current.x - current.radius));
+            for (Drone active : activeList) {
+                boolean overlapY = !((active.y + active.radius) < (current.y - current.radius) || 
+                                     (active.y - active.radius) > (current.y + current.radius));
+                if (overlapY) {
+                    double dist = current.distance3D(active);
+                    if(dist <= (current.radius + active.radius)) {
+                        System.out.printf("🚨 [COLLISION ALERT via Sweep Line] %s and %s are critically close (%.2fm)!\n", 
+                                          current.id, active.id, dist);
+                        potentialCollisions++;
+                    }
+                }
+            }
+            activeList.add(current);
+        }
+        if (potentialCollisions == 0) System.out.println("✅ Sweep Line Check: Airspace is clear of collisions.");
+    }
+}
+
+public class DroneSystem {
+    private static Map<String, Drone> droneMap = new HashMap<>();
+    private static List<NoFlyZone> zones = new ArrayList<>();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        zones.add(new NoFlyZone("Airport_Runway", 0, 0, 0, 50));
+        System.out.println("==================================================");
+        System.out.println("✈️ REAL-TIME DRONE AIRSPACE MONITORING SYSTEM ✈️");
+        System.out.println("==================================================");
+        while (true) {
+            System.out.println("\n--- MAIN MENU ---");
+            System.out.println("1. Add Drone (Dynamic Insertion)");
+            System.out.println("2. Remove Drone (Dynamic Deletion)");
+            System.out.println("3. Advance Time / Update Trajectories");
+            System.out.println("4. Run Sweep Line Collision Detection (2D/3D)");
+            System.out.println("5. Query Nearest Neighbor (KD-Tree)");
+            System.out.println("6. Query 2D Point Location / Range (Quad Tree)");
+            System.out.println("7. View All Drones");
+            System.out.println("8. Exit");
+            System.out.print("Select an option: ");
+            String choice = scanner.nextLine();
+            try {
+                switch (choice) {
+                    case "1":
+                        System.out.print("Enter ID, x, y, z, vx, vy, vz (space-separated): ");
+                        String[] inputs = scanner.nextLine().split(" ");
+                        Drone d = new Drone(inputs[0], Double.parseDouble(inputs[1]), Double.parseDouble(inputs[2]), 
+                                Double.parseDouble(inputs[3]), Double.parseDouble(inputs[4]), Double.parseDouble(inputs[5]), Double.parseDouble(inputs[6]));
+                        droneMap.put(d.id, d);
+                        System.out.println("✅ Drone dynamically inserted.");
+                        break;
+                    case "2":
+                        System.out.print("Enter Drone ID to remove: ");
+                        String id = scanner.nextLine();
+                        if(droneMap.remove(id) != null) System.out.println("✅ Drone deleted.");
+                        else System.out.println("❌ Drone not found.");
+                        break;
+                    case "3":
+                        System.out.print("Enter time step (dt in seconds): ");
+                        double dt = Double.parseDouble(scanner.nextLine());
+                        for (Drone drone : droneMap.values()) {
+                            drone.updateTrajectory(dt);
+                            for (NoFlyZone zone : zones) {
+                                if(zone.violates(drone)) System.out.println("⚠️ NO-FLY ZONE VIOLATION: " + drone.id);
+                            }
+                        }
+                        System.out.println("✅ Trajectories updated.");
+                        break;
+                    case "4":
+                        System.out.println("\nExecuting Sweep Line Collision Algorithm...");
+                        SweepLineAlgorithm.detectCollisions(new ArrayList<>(droneMap.values()));
+                        break;
+                    case "5":
+                        System.out.print("Enter target coordinates X Y Z (space-separated): ");
+                        String[] coords = scanner.nextLine().split(" ");
+                        KDTree kdTree = new KDTree();
+                        kdTree.build(new ArrayList<>(droneMap.values()));
+                        Drone nearest = kdTree.getNearestNeighbor(Double.parseDouble(coords[0]), Double.parseDouble(coords[1]), Double.parseDouble(coords[2]));
+                        if(nearest != null) System.out.println("🎯 Nearest Drone (KD-Tree): " + nearest);
+                        else System.out.println("No drones in airspace.");
+                        break;
+                    case "6":
+                        System.out.print("Enter search center X Y and Area Radius (space-separated): ");
+                        String[] qCoords = scanner.nextLine().split(" ");
+                        Boundary screenBounds = new Boundary(0, 0, 10000, 10000);
+                        QuadTree qt = new QuadTree(screenBounds, 4);
+                        for(Drone dr : droneMap.values()) qt.insert(dr);
+                        
+                        Boundary searchBox = new Boundary(Double.parseDouble(qCoords[0]), Double.parseDouble(qCoords[1]), Double.parseDouble(qCoords[2]), Double.parseDouble(qCoords[2]));
+                        List<Drone> found = qt.query2DRange(searchBox, new ArrayList<>());
+                        System.out.println("📍 Drones found in area (Quad Tree): " + found.size());
+                        for(Drone fd : found) System.out.println("  - " + fd.id);
+                        break;
+                    case "7":
+                        droneMap.values().forEach(System.out::println);
+                        break;
+                    case "8":
+                        System.out.println("System shutting down...");
+                        scanner.close();
+                        System.exit(0);
+                    default:
+                        System.out.println("❌ Invalid choice. Try again.");
+                }
+            } catch (Exception e) {
+                System.out.println("❌ Input error. Please use correct formatting.");
+            }
+        }
+    }
+}</textarea>
+                </div>
+
+                <div class="compiler-terminal">
+                    <div class="compiler-header">
+                        <span><i class="icon-term"></i> Terminal Console</span>
+                        <span class="status-dot blink"></span>
+                    </div>
+                    <div class="term-window" id="term-window">
+                        // Awaiting Compilation... Click "RUN COMPILER".
+                    </div>
+                    <div class="term-input-wrapper" id="cli-input-area" style="display: none;">
+                        <span class="term-prompt">root@skyshield:~#</span>
+                        <input type="text" id="term-input-field" autocomplete="off" spellcheck="false"
+                            placeholder="Enter option (1-8)...">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
